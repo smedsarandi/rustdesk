@@ -3,6 +3,15 @@ import customtkinter as ctk
 
 server_ip_old = "192.168.3.250"
 
+if os.path.exists('C:/Program Files (x86)/RustDesk'):
+    print("É X86")
+    rustdesk_app = "C:/Program Files (x86)/RustDesk/rustdesk.exe"
+elif os.path.exists('C:/Program Files/RustDesk'):
+    print("É X64")
+    rustdesk_app = "C:/Program Files/RustDesk/rustdesk.exe"
+
+
+#o python não reconhece as variaveis de ambiente do Windows, por conta disso a linha 8 será usada para tratar esse erro
 directory_file_pre = r"%appdata%/RustDesk/config/RustDesk2.toml"
 directory_file = os.path.expandvars(directory_file_pre)
 
@@ -23,7 +32,7 @@ def terminate_rustdesk_processes():
 
 def button_rust_stop():
     print("abrindo o rustdesk")
-    os.popen('C:/Program Files/RustDesk/rustdesk.exe')
+    os.popen(rustdesk_app)
     print("iniciando serviço para possibilitar para-lo")
     result_stop = subprocess.run('NET START "RustDesk Service"', shell=True, capture_output=True, text=True)
     #os.popen('NET START "RustDesk Service"')
@@ -36,7 +45,7 @@ def button_rust_stop():
 
 
 def button_rust_start():
-    result_stop = subprocess.run('C:/Program Files/RustDesk/rustdesk.exe', shell=True, capture_output=True, text=True)
+    result_stop = subprocess.run(rustdesk_app, shell=True, capture_output=True, text=True)
     time.sleep(4)
     result_stop = subprocess.run('NET START "RustDesk Service"', shell=True, capture_output=True, text=True)
     #os.popen('NET START "RustDesk Service"')
